@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { FileBrowser } from './FBrowser';
 import reportWebVitals from './reportWebVitals';
-
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <FileBrowser />
   </React.StrictMode>,
   document.getElementById('root')
 );
