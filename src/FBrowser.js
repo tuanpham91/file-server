@@ -15,8 +15,18 @@ class BrowserHeader extends React.Component {
     render() {
         return (
             <div>
-                <button>Create Folder </button>
-                <button>Upload File </button>
+                <Button buttonName="Create Folder"/>
+                <Button buttonName="UploadFile"/>
+            </div>
+        )
+    }
+}
+
+class Button extends React.Component {
+    render() {
+        return (
+            <div>
+                <button>{this.props.buttonName}</button>
             </div>
         )
     }
