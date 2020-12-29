@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 import { FileBrowser } from './FBrowser';
 import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
-  <React.StrictMode>
-    <FileBrowser />
-  </React.StrictMode>,
+  <FileBrowser />,
   document.getElementById('root')
 );
 

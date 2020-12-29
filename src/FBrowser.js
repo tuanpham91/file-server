@@ -1,4 +1,5 @@
 import React from 'react';
+import './FBrowser.css';
 
 class FileBrowser extends React.Component {
     render() {
@@ -14,7 +15,7 @@ class FileBrowser extends React.Component {
 class BrowserHeader extends React.Component {
     render() {
         return (
-            <div>
+            <div class="Header">
                 <Button buttonName="Create Folder"/>
                 <Button buttonName="UploadFile"/>
             </div>
@@ -25,9 +26,7 @@ class BrowserHeader extends React.Component {
 class Button extends React.Component {
     render() {
         return (
-            <div>
-                <button>{this.props.buttonName}</button>
-            </div>
+            <button class="Button">{this.props.buttonName}</button>
         )
     }
 }
@@ -35,7 +34,7 @@ class Button extends React.Component {
 class FileWindow extends React.Component {
     render() {
         return (
-            <div>
+            <div class="FileWindow">
             </div>
         )
     }
