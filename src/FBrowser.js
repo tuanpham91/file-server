@@ -32,19 +32,25 @@ class Button extends React.Component {
 }
 
 class FileWindow extends React.Component {
-    
+    constructor(props) {
+        super(props)
+        this.getFiles = this.getFiles.bind(this);
+
+    }
+
     getFiles() {
         fetch("http://localhost:8080/api/folders/", {
             method: "GET",
             crossDomain: true
         })
         .then((response)=> response.json().then(json => {
-            console.log(json)
+            return json["result"];
         }))
         .catch((error) => {
             console.error(error);
         });
     }
+
 
     render() {
         return (
@@ -52,7 +58,9 @@ class FileWindow extends React.Component {
                 <table id="FileWindowTable">
                     <tbody>
                         <FileHeader />
-                        {this.getFiles()}
+                        { this.getFiles().map(file => 
+                            <File fileName={file} size="" lastModified="" />
+                        )}
                     </tbody>
                </table>              
             </div>
@@ -64,20 +72,23 @@ class FileHeader extends React.Component {
     render() {
         return (
             <tr className="FileHeader">
-                <td className="col1">File Name</td>
-                <td className="col2">Size</td>
-                <td className="col3">Last Modified</td>
+                <td className="col1">{this.props.fileName}</td>
+                <td className="col2">{this.props.size}</td>
+                <td className="col3">{this.props.lastModified}</td>
             </tr>
         )
     }
 }
 
 class File extends React.Component {
+
     render() {
         return (
-            <div>
-
-            </div>
+            <tr className="FileRow">
+                <td className="col1 file-row">File Name</td>
+                <td className="col2 file-row">Size</td>
+                <td className="col3 file-row">Last Modified</td>
+            </tr>
         )
     }
 }
