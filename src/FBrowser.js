@@ -15,9 +15,9 @@ class FileBrowser extends React.Component {
 class BrowserHeader extends React.Component {
     render() {
         return (
-            <div class="Header">
-                <Button buttonName="Create Folder"/>
-                <Button buttonName="UploadFile"/>
+            <div className="Header">
+                <Button buttonName="Create Folder" />
+                <Button buttonName="UploadFile" />
             </div>
         )
     }
@@ -26,24 +26,55 @@ class BrowserHeader extends React.Component {
 class Button extends React.Component {
     render() {
         return (
-            <button class="Button">{this.props.buttonName}</button>
+            <button className="Button">{this.props.buttonName}</button>
         )
     }
 }
 
 class FileWindow extends React.Component {
+    
+    getFiles() {
+        fetch("http://localhost:8080/api/folders/", {
+            method: "GET",
+            crossDomain: true
+        })
+        .then((response)=> response.json().then(json => {
+            console.log(json)
+        }))
+        .catch((error) => {
+            console.error(error);
+        });
+    }
+
     render() {
         return (
-            <div class="FileWindow">
+            <div className="FileWindow">
+                <table id="FileWindowTable">
+                    <tbody>
+                        <FileHeader />
+                        {this.getFiles()}
+                    </tbody>
+               </table>              
             </div>
         )
     }
+}
 
+class FileHeader extends React.Component {
+    render() {
+        return (
+            <tr className="FileHeader">
+                <td className="col1">File Name</td>
+                <td className="col2">Size</td>
+                <td className="col3">Last Modified</td>
+            </tr>
+        )
+    }
 }
 
 class File extends React.Component {
     render() {
-        return(
+        return (
             <div>
 
             </div>
