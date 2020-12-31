@@ -34,23 +34,41 @@ class Button extends React.Component {
 class FileWindow extends React.Component {
     constructor(props) {
         super(props)
-        this.getFiles = this.getFiles.bind(this);
-
+        this.state = {
+            files : []
+        }
+    }
+    // This has to be changed later due to file change
+    parseJsonResult(result) {
+        return result;
     }
 
-    getFiles() {
+    populateFileTable() {
+        return this.state.files.map(file => 
+            <File fileName={file} size="" lastModified="" />
+            )    
+    }
+
+    componentDidMount() {
+        this.getFiles((fileResult)=> {
+            this.setState({
+                files : fileResult
+            })
+        } )
+    }
+
+    getFiles(cb) {
         fetch("http://localhost:8080/api/folders/", {
             method: "GET",
             crossDomain: true
         })
         .then((response)=> response.json().then(json => {
-            return json["result"];
+            cb(json["result"]);
         }))
         .catch((error) => {
             console.error(error);
         });
     }
-
 
     render() {
         return (
@@ -58,9 +76,6 @@ class FileWindow extends React.Component {
                 <table id="FileWindowTable">
                     <tbody>
                         <FileHeader />
-                        { this.getFiles().map(file => 
-                            <File fileName={file} size="" lastModified="" />
-                        )}
                     </tbody>
                </table>              
             </div>
