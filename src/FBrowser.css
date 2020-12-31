@@ -42,3 +42,20 @@ html, body, #root{
     width: 100%;
     margin: 10px 10px 10px 10px;
 }
+
+.FileWindowHeader {
+    color: #6495ED !important;
+    font-weight: bold !important;
+}
+
+.col1 {
+    max-width: 50%;
+}
+
+.col2 {
+    width: 20%;
+}
+
+.col3 {
+    width: 30%;
+}
