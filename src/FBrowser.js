@@ -35,7 +35,8 @@ class FileWindow extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            files : []
+            files : [],
+            currentPath : "/"
         }
     }
     // This has to be changed later due to file change
@@ -45,7 +46,7 @@ class FileWindow extends React.Component {
 
     populateFileTable() {
         return this.state.files.map(file => 
-            <File fileName={file} size="" lastModified="" />
+            <File fileName={file} key={this.state.currentPath + file} size="" lastModified="" />
             )    
     }
 
@@ -76,7 +77,7 @@ class FileWindow extends React.Component {
                 <table id="FileWindowTable">
                     <tbody>
                         <FileHeader />
-                        {this.state.files.map(file => <File fileName={file} size="" lastModified="" /> )}
+                        {this.state.files.map(file => <File fileName={file} key={this.state.currentPath + file} size="" lastModified="" /> )}
                    </tbody>
                </table>              
             </div>
