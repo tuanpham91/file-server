@@ -4,7 +4,7 @@ import './FBrowser.css';
 class FileBrowser extends React.Component {
     render() {
         return (
-            <div className="main-page">
+            <div onContextMenu={(e)=> e.preventDefault()} className="main-page">
                 <BrowserHeader />
                 <FileWindow />
             </div>
@@ -98,14 +98,27 @@ class FileHeader extends React.Component {
 }
 
 class File extends React.Component {
-
     render() {
         return (
             <tr className="FileRow">
                 <td className="col1">{this.props.fileName}</td>
                 <td className="col2">{this.props.size}</td>
                 <td className="col3">{this.props.lastModified}</td>
+                <td className="col4">
+                    <ControlButtonBlock />
+                </td>
             </tr>
+        )
+    }
+}
+
+class ControlButtonBlock extends React.Component {
+    render() {
+        return (
+            <div class="ButtonBlock">
+                <button class="button btn-download"></button>
+                <button class="button btn-delete"></button>
+            </div>
         )
     }
 }

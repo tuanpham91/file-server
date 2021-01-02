@@ -11,6 +11,9 @@
     margin-bottom: 10px;
 }
 
+.FileRow {
+    height : 30px
+}
 
 html, body, #root{
     height: 99%;
@@ -46,10 +49,11 @@ html, body, #root{
 .FileWindowHeader {
     color: #6495ED !important;
     font-weight: bold !important;
+    font-size: 18px !important;
 }
 
 .col1 {
-    max-width: 50%;
+    max-width: 40%;
 }
 
 .col2 {
@@ -58,4 +62,33 @@ html, body, #root{
 
 .col3 {
     width: 30%;
+}
+
+.col4 {
+    width: 10%;
+}
+
+.button {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.btn-delete {
+    background: url(./images/delete-button.PNG) no-repeat center center;
+    background-size: contain; 
+}
+
+.btn-download {
+    background: url(./images/download-button.png) no-repeat center center;
+    background-size: contain; 
+}
+
+.btn:hover {
+
+}
+
+.ButtonBlock {
+    height: 100%;
 }
