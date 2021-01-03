@@ -1,3 +1,4 @@
+import download from 'downloadjs';
 import React from 'react';
 import './FBrowser.css';
 
@@ -77,7 +78,7 @@ class FileWindow extends React.Component {
                 <table id="FileWindowTable">
                     <tbody>
                         <FileHeader />
-                        {this.state.files.map(file => <File fileName={file} key={this.state.currentPath + file} size="" lastModified="" /> )}
+                        {this.state.files.map(file => <File fileName={file} key={this.state.currentPath + file} path={this.state.currentPath + file} size="" lastModified="" /> )}
                    </tbody>
                </table>              
             </div>
@@ -105,7 +106,7 @@ class File extends React.Component {
                 <td className="col2">{this.props.size}</td>
                 <td className="col3">{this.props.lastModified}</td>
                 <td className="col4">
-                    <ControlButtonBlock />
+                    <ControlButtonBlock path={this.props.path} />
                 </td>
             </tr>
         )
@@ -113,11 +114,31 @@ class File extends React.Component {
 }
 
 class ControlButtonBlock extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            path : props.path
+        }
+        this.downloadFile = this.downloadFile.bind(this)
+    }
+    // https://stackoverflow.com/questions/35206589/how-to-download-fetch-response-in-react-as-file
+    downloadFile() {
+        fetch("http://localhost:8080/api/download/?path="+this.state.path, {
+            method: "GET",
+            crossDomain: true
+        })
+        .then((response)=> response.blob().then(blob => {
+           return download(blob);
+        }))
+        .catch((error) => {
+            console.error(error);
+        });
+    }
     render() {
         return (
-            <div class="ButtonBlock">
-                <button class="button btn-download"></button>
-                <button class="button btn-delete"></button>
+            <div className="ButtonBlock">
+                <button className="button btn-download" onClick={this.downloadFile}></button>
+                <button className="button btn-delete"></button>
             </div>
         )
     }
