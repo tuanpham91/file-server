@@ -105,8 +105,8 @@ class File extends React.Component {
                 <td className="col1">{this.props.fileName}</td>
                 <td className="col2">{this.props.size}</td>
                 <td className="col3">{this.props.lastModified}</td>
-                <td className="col4">
-                    <ControlButtonBlock path={this.props.path} />
+                <td className="col4" >
+                    <ControlButtonBlock fileName={this.props.fileName} path={this.props.path} />
                 </td>
             </tr>
         )
@@ -117,7 +117,8 @@ class ControlButtonBlock extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            path : props.path
+            path : props.path,
+            fileName : props.fileName
         }
         this.downloadFile = this.downloadFile.bind(this)
     }
@@ -128,7 +129,8 @@ class ControlButtonBlock extends React.Component {
             crossDomain: true
         })
         .then((response)=> response.blob().then(blob => {
-           return download(blob);
+            console.log(this.state.fileName)
+            return download(blob, this.state.fileName);
         }))
         .catch((error) => {
             console.error(error);
