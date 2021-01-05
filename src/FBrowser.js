@@ -47,7 +47,7 @@ class FileWindow extends React.Component {
 
     populateFileTable() {
         return this.state.files.map(file => 
-            <File fileName={file} key={this.state.currentPath + file} size="" lastModified="" />
+            <File fileName={file["fileName"]} key={this.state.currentPath + file["fileName"]} size="" lastModified="" />
             )    
     }
 
