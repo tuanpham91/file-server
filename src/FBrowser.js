@@ -77,7 +77,7 @@ class FileWindow extends React.Component {
     render() {
         return (
             <div className="FileWindow">
-                <table id="FileWindowTable">
+                <table id="FileWindowTable" cellspacing="0">
                     <tbody>
                         <FileHeader />
                         {this.state.files.map(file => <File fileName={file["fileName"]} isDirectory={file["isDirectory"]} key={this.state.currentPath + file["fileName"]} path={this.state.currentPath + file["fileName"]} size="" lastModified="" /> )}
