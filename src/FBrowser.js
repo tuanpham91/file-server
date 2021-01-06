@@ -80,7 +80,7 @@ class FileWindow extends React.Component {
                 <table id="FileWindowTable">
                     <tbody>
                         <FileHeader />
-                        {this.state.files.map(file => <File fileName={file["fileName"]} key={this.state.currentPath + file["fileName"]} path={this.state.currentPath + file["fileName"]} size="" lastModified="" /> )}
+                        {this.state.files.map(file => <File fileName={file["fileName"]} isDirectory={file["isDirectory"]} key={this.state.currentPath + file["fileName"]} path={this.state.currentPath + file["fileName"]} size="" lastModified="" /> )}
                    </tbody>
                </table>              
             </div>
@@ -108,7 +108,7 @@ class File extends React.Component {
                 <td className="col2">{this.props.size}</td>
                 <td className="col3">{this.props.lastModified}</td>
                 <td className="col4" >
-                    <ControlButtonBlock fileName={this.props.fileName} path={this.props.path} />
+                    <ControlButtonBlock fileName={this.props.fileName} path={this.props.path} isDirectory={this.props.isDirectory} />
                 </td>
             </tr>
         )
@@ -120,7 +120,8 @@ class ControlButtonBlock extends React.Component {
         super(props)
         this.state = {
             path : props.path,
-            fileName : props.fileName
+            fileName : props.fileName,
+            isDirectory: props.isDirectory
         }
         this.downloadFile = this.downloadFile.bind(this)
     }
@@ -139,9 +140,13 @@ class ControlButtonBlock extends React.Component {
         });
     }
     render() {
+        let downloadButton;
+        if (this.state.isDirectory ===false) {
+            downloadButton = <button className="button btn-download" onClick={this.downloadFile}></button>
+        }
         return (
             <div className="ButtonBlock">
-                <button className="button btn-download" onClick={this.downloadFile}></button>
+                {downloadButton}
                 <button className="button btn-delete"></button>
             </div>
         )
