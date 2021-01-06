@@ -31,6 +31,18 @@ class Button extends React.Component {
         )
     }
 }
+function getFiles(cb, currentPath, subFolder) {
+    fetch("http://localhost:8080/api/folders/?path="+ currentPath + subFolder, {
+        method: "GET",
+        crossDomain: true
+    })
+    .then((response)=> response.json().then(json => {
+        cb(json["result"]);
+    }))
+    .catch((error) => {
+        console.error(error);
+    });
+}
 
 class FileWindow extends React.Component {
     constructor(props) {
@@ -39,39 +51,24 @@ class FileWindow extends React.Component {
             files : [],
             currentPath : "/"
         }
+        this.populateFileTable = this.populateFileTable.bind(this)
     }
     // This has to be changed later due to file change
     parseJsonResult(result) {
         return result;
     }
 
-    populateFileTable() {
-        return this.state.files.map(file => 
-            <File fileName={file["fileName"]} key={this.state.currentPath + file["fileName"]} size="" lastModified="" />
-            )    
+    populateFileTable(subFolder) {
+        getFiles((fileResult)=> {
+            this.setState({
+                files :  fileResult,
+                currentPath : this.state.currentPath + subFolder + "/"
+            })
+        }, this.state.currentPath, subFolder )    
     }
 
     componentDidMount() {
-        this.getFiles((fileResult)=> {
-            
-            this.setState({
-                files :  fileResult,
-                currentPath : this.state.currentPath
-            })
-        } )
-    }
-
-    getFiles(cb) {
-        fetch("http://localhost:8080/api/folders/", {
-            method: "GET",
-            crossDomain: true
-        })
-        .then((response)=> response.json().then(json => {
-            cb(json["result"]);
-        }))
-        .catch((error) => {
-            console.error(error);
-        });
+        this.populateFileTable("");
     }
 
     render() {
@@ -80,7 +77,9 @@ class FileWindow extends React.Component {
                 <table id="FileWindowTable" cellspacing="0">
                     <tbody>
                         <FileHeader />
-                        {this.state.files.map(file => <File fileName={file["fileName"]} isDirectory={file["isDirectory"]} key={this.state.currentPath + file["fileName"]} path={this.state.currentPath + file["fileName"]} size="" lastModified="" /> )}
+                        {this.state.files.map(file => 
+                        <File populateFileTable={this.populateFileTable}  fileName={file["fileName"]} isDirectory={file["isDirectory"]} key={this.state.currentPath + file["fileName"]} path={this.state.currentPath + file["fileName"]} size="" lastModified="" />)
+                        }
                    </tbody>
                </table>              
             </div>
@@ -101,10 +100,19 @@ class FileHeader extends React.Component {
 }
 
 class File extends React.Component {
+    constructor(props) {
+        super(props);
+        this.openFolder = this.openFolder.bind(this)
+    }
+    openFolder() {
+        if (this.props.isDirectory) {
+            this.props.populateFileTable(this.props.fileName)
+        }
+    }
     render() {
         return (
-            <tr className="FileRow">
-                <td className="col1">{this.props.fileName}</td>
+            <tr onDoubleClick={this.openFolder}  className="FileRow">
+                <td className="col1 unselectable">{this.props.fileName}</td>
                 <td className="col2">{this.props.size}</td>
                 <td className="col3">{this.props.lastModified}</td>
                 <td className="col4" >
@@ -139,6 +147,7 @@ class ControlButtonBlock extends React.Component {
             console.error(error);
         });
     }
+    
     render() {
         let downloadButton;
         if (this.state.isDirectory ===false) {

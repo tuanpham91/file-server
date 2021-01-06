@@ -50,6 +50,14 @@ html, body, #root{
     margin: 10px 10px 10px 10px;
 }
 
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .FileWindowHeader {
     color: #6495ED !important;
     font-weight: bold !important;
