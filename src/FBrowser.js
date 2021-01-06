@@ -53,8 +53,10 @@ class FileWindow extends React.Component {
 
     componentDidMount() {
         this.getFiles((fileResult)=> {
+            
             this.setState({
-                files : fileResult
+                files :  fileResult,
+                currentPath : this.state.currentPath
             })
         } )
     }
@@ -78,7 +80,7 @@ class FileWindow extends React.Component {
                 <table id="FileWindowTable">
                     <tbody>
                         <FileHeader />
-                        {this.state.files.map(file => <File fileName={file} key={this.state.currentPath + file} path={this.state.currentPath + file} size="" lastModified="" /> )}
+                        {this.state.files.map(file => <File fileName={file["fileName"]} key={this.state.currentPath + file["fileName"]} path={this.state.currentPath + file["fileName"]} size="" lastModified="" /> )}
                    </tbody>
                </table>              
             </div>
