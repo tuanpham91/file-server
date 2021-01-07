@@ -17,6 +17,7 @@ class BrowserHeader extends React.Component {
     render() {
         return (
             <div className="Header">
+                <Button buttonName="Back"/>
                 <Button buttonName="Create Folder" />
                 <Button buttonName="UploadFile" />
             </div>
@@ -106,6 +107,7 @@ class File extends React.Component {
     }
     openFolder() {
         if (this.props.isDirectory) {
+            // update current state
             this.props.populateFileTable(this.props.fileName)
         }
     }
