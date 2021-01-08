@@ -63,18 +63,37 @@ class FileWindow extends React.Component {
     parseJsonResult(result) {
         return result;
     }
+    // this looks like shite
+    calculatePath(subFolder, goBack) {
+        if (subFolder === "") return this.state.currentPath;
+        if (goBack) {
+            var tempPathList = this.state.currentPath.split("/").filter(el => el !== "")
+            if (tempPathList.size<1) {
+                return this.state.currentPath;
+            }
+            if (tempPathList[tempPathList.length-1] === subFolder) {
+                return tempPathList.slice(0,tempPathList-1).join("/") + "/"
+            } else {
+                return this.state.currentPath;
+            }
+        } else {
+            return this.state.currentPath + subFolder + "/"
+        }
+    }
 
-    populateFileTable(subFolder) {
+    populateFileTable(subFolder, goBack) {
+        var tempPath = this.calculatePath(subFolder, goBack);
+        console.log(tempPath)
         getFiles((fileResult)=> {
             this.setState({
                 files :  fileResult,
-                currentPath : this.state.currentPath + subFolder + "/"
+                currentPath : tempPath
             })
         }, this.state.currentPath, subFolder )    
     }
 
     componentDidMount() {
-        this.populateFileTable("");
+        this.populateFileTable("",false);
     }
 
     render() {
@@ -118,7 +137,7 @@ class File extends React.Component {
     openFolder() {
         if (this.props.file.isDirectory) {
             // update current state
-            this.props.populateFileTable(this.props.fileName)
+            this.props.populateFileTable(this.props.file.fileName, false)
         }
     }
     render() {
