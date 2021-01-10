@@ -62,7 +62,6 @@ class FileWindow extends React.Component {
         if(goBack === true) {
             newPathArray = this.state.pathArray;
             newPathArray.pop();
-            console.log("go back")
             newCurrentPath = this.buildPathFromArray(newPathArray);
         } else {
             newPathArray = this.state.pathArray.concat(subFolder);
@@ -77,7 +76,6 @@ class FileWindow extends React.Component {
 
     populateFileTable(subFolder, goBack) {
         var result =  this.calculatePath(subFolder, goBack);
-        console.log("Get files for path " + result  )
         getFiles((fileResult)=> {
             this.setState({
                 files :  fileResult
@@ -140,7 +138,6 @@ class File extends React.Component {
     openFolder() {
         if (this.props.file.isDirectory) {
             // update current state
-            console.log("open folder " +this.props.file.fileName )
             this.props.populateFileTable(this.props.file.fileName, false)
         }
     }
