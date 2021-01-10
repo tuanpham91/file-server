@@ -21,8 +21,8 @@ class Button extends React.Component {
         )
     }
 }
-function getFiles(cb, currentPath, subFolder) {
-    fetch("http://localhost:8080/api/folders/?path="+ currentPath + subFolder, {
+function getFiles(cb, currentPath) {
+    fetch("http://localhost:8080/api/folders/?path="+ currentPath, {
         method: "GET",
         crossDomain: true
     })
@@ -56,26 +56,28 @@ class FileWindow extends React.Component {
 
     calculatePath(subFolder, goBack) {
         // if go back, then go back one level and thats it.
+        var result = this.buildPathFromArray(this.state.pathArray)
         if(goBack) {
             this.setState ({
                 pathArray : this.state.pathArray.pop(),
-                currentPath : this.buildPathFromArray(this.state.pathArray)
+                currentPath : result
             });
         } else {
             this.setState ({
                 pathArray : this.state.pathArray.concat(subFolder),
-                currentPath : this.buildPathFromArray(this.state.pathArray)
+                currentPath : result
             });
         }
+        return result;
     }
 
     populateFileTable(subFolder, goBack) {
-        this.calculatePath(subFolder, goBack);
+        var result =  this.calculatePath(subFolder, goBack);
         getFiles((fileResult)=> {
             this.setState({
                 files :  fileResult
             })
-        }, this.state.currentPath, subFolder )    
+        }, result)    
     }
 
     componentDidMount() {
