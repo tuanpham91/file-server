@@ -50,29 +50,31 @@ class FileWindow extends React.Component {
     }
     // this looks like shite
 
-    buildPathFromArray(pathArray) {
+    buildPathFromArray(pathArray, subFolder) {
         return pathArray.join("/")+"/";
     }
 
-    calculatePath(subFolder, goBack) {
+    calculatePath(subFolder, goBack, cb) {
         // if go back, then go back one level and thats it.
-        var result = this.buildPathFromArray(this.state.pathArray)
+        let newPathArray;
+        let newCurrentPath;
         if(goBack) {
-            this.setState ({
-                pathArray : this.state.pathArray.pop(),
-                currentPath : result
-            });
+            newPathArray = this.state.pathArray.pop()
+            newCurrentPath = this.buildPathFromArray(newPathArray);
         } else {
-            this.setState ({
-                pathArray : this.state.pathArray.concat(subFolder),
-                currentPath : result
-            });
+            newPathArray = this.state.pathArray.concat(subFolder);
+            newCurrentPath = this.buildPathFromArray(newPathArray);
         }
-        return result;
+        this.setState ({
+            pathArray : newPathArray,
+            currentPath : newCurrentPath
+        });
+        return newCurrentPath;
     }
 
     populateFileTable(subFolder, goBack) {
         var result =  this.calculatePath(subFolder, goBack);
+        console.log("Get files for path " + result  )
         getFiles((fileResult)=> {
             this.setState({
                 files :  fileResult
@@ -131,6 +133,7 @@ class File extends React.Component {
     openFolder() {
         if (this.props.file.isDirectory) {
             // update current state
+            console.log("open folder " +this.props.file.fileName )
             this.props.populateFileTable(this.props.file.fileName, false)
         }
     }
