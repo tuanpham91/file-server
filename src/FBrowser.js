@@ -6,7 +6,7 @@ class BrowserHeader extends React.Component {
     render() {
         return (
             <div className="Header">
-                <Button populateFileTable={this.props.populateFileTable}buttonName="Back"/>
+                <Button onClick={this.props.goBack} buttonName="Back"/>
                 <Button buttonName="Create Folder" />
                 <Button buttonName="UploadFile" />
             </div>
@@ -17,7 +17,7 @@ class BrowserHeader extends React.Component {
 class Button extends React.Component {
     render() {
         return (
-            <button onClick={this.props.populateFileTable} className="Button">{this.props.buttonName}</button>
+            <button onClick={this.props.onClick} className="Button">{this.props.buttonName}</button>
         )
     }
 }
@@ -43,6 +43,7 @@ class FileWindow extends React.Component {
             currentPath : ""
         }
         this.populateFileTable = this.populateFileTable.bind(this)
+        this.goBack = this.goBack.bind(this)
     }
     // This has to be changed later due to file change
     parseJsonResult(result) {
@@ -54,12 +55,14 @@ class FileWindow extends React.Component {
         return pathArray.join("/")+"/";
     }
 
-    calculatePath(subFolder, goBack, cb) {
+    calculatePath(subFolder, goBack) {
         // if go back, then go back one level and thats it.
         let newPathArray;
         let newCurrentPath;
-        if(goBack) {
-            newPathArray = this.state.pathArray.pop()
+        if(goBack === true) {
+            newPathArray = this.state.pathArray;
+            newPathArray.pop();
+            console.log("go back")
             newCurrentPath = this.buildPathFromArray(newPathArray);
         } else {
             newPathArray = this.state.pathArray.concat(subFolder);
@@ -82,6 +85,10 @@ class FileWindow extends React.Component {
         }, result)    
     }
 
+    goBack() {
+        this.populateFileTable("", true);
+    }
+
     componentDidMount() {
         this.populateFileTable("",false);
     }
@@ -90,7 +97,7 @@ class FileWindow extends React.Component {
         return (
             <div className="main-page">                
                 <BrowserHeader 
-                    populateFileTable={this.populateFileTable}
+                    goBack={this.goBack}
                 />
             <div className="FileWindow">
                 <table id="FileWindowTable" cellSpacing="0">
