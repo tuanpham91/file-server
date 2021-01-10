@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { FileBrowser } from './FBrowser';
+import { FileWindow } from './FBrowser';
 import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
-  <FileBrowser />,
+  <FileWindow />,
   document.getElementById('root')
 );
 

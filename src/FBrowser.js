@@ -2,27 +2,11 @@ import download from 'downloadjs';
 import React from 'react';
 import './FBrowser.css';
 
-class FileBrowser extends React.Component {
-    updateState() {
-        
-    }
-    // https://stackoverflow.com/questions/41825557/accessing-parent-state-in-child-in-react
-    //https://medium.com/javascript-in-plain-english/how-to-avoid-prop-drilling-in-react-using-component-composition-c42adfcdde1b
-    render() {
-        return (
-            <div onContextMenu={(e)=> e.preventDefault()} className="main-page">
-                <BrowserHeader />
-                <FileWindow />
-            </div>
-        )
-    }
-}
-
 class BrowserHeader extends React.Component {
     render() {
         return (
             <div className="Header">
-                <Button buttonName="Back"/>
+                <Button populateFileTable={this.props.populateFileTable}buttonName="Back"/>
                 <Button buttonName="Create Folder" />
                 <Button buttonName="UploadFile" />
             </div>
@@ -33,7 +17,7 @@ class BrowserHeader extends React.Component {
 class Button extends React.Component {
     render() {
         return (
-            <button className="Button">{this.props.buttonName}</button>
+            <button onClick={this.props.populateFileTable} className="Button">{this.props.buttonName}</button>
         )
     }
 }
@@ -55,7 +39,8 @@ class FileWindow extends React.Component {
         super(props)
         this.state = {
             files : [],
-            currentPath : "/"
+            pathArray : [],
+            currentPath : ""
         }
         this.populateFileTable = this.populateFileTable.bind(this)
     }
@@ -64,30 +49,31 @@ class FileWindow extends React.Component {
         return result;
     }
     // this looks like shite
+
+    buildPathFromArray(pathArray) {
+        return pathArray.join("/")+"/";
+    }
+
     calculatePath(subFolder, goBack) {
-        if (subFolder === "") return this.state.currentPath;
-        if (goBack) {
-            var tempPathList = this.state.currentPath.split("/").filter(el => el !== "")
-            if (tempPathList.size<1) {
-                return this.state.currentPath;
-            }
-            if (tempPathList[tempPathList.length-1] === subFolder) {
-                return tempPathList.slice(0,tempPathList-1).join("/") + "/"
-            } else {
-                return this.state.currentPath;
-            }
+        // if go back, then go back one level and thats it.
+        if(goBack) {
+            this.setState ({
+                pathArray : this.state.pathArray.pop(),
+                currentPath : this.buildPathFromArray(this.state.pathArray)
+            });
         } else {
-            return this.state.currentPath + subFolder + "/"
+            this.setState ({
+                pathArray : this.state.pathArray.concat(subFolder),
+                currentPath : this.buildPathFromArray(this.state.pathArray)
+            });
         }
     }
 
     populateFileTable(subFolder, goBack) {
-        var tempPath = this.calculatePath(subFolder, goBack);
-        console.log(tempPath)
+        this.calculatePath(subFolder, goBack);
         getFiles((fileResult)=> {
             this.setState({
-                files :  fileResult,
-                currentPath : tempPath
+                files :  fileResult
             })
         }, this.state.currentPath, subFolder )    
     }
@@ -98,6 +84,10 @@ class FileWindow extends React.Component {
 
     render() {
         return (
+            <div className="main-page">                
+                <BrowserHeader 
+                    populateFileTable={this.populateFileTable}
+                />
             <div className="FileWindow">
                 <table id="FileWindowTable" cellSpacing="0">
                     <tbody>
@@ -113,6 +103,8 @@ class FileWindow extends React.Component {
                    </tbody>
                </table>              
             </div>
+            </div>
+
         )
     }
 }
@@ -193,5 +185,5 @@ class ControlButtonBlock extends React.Component {
 }
 
 export {
-    FileBrowser
+    FileWindow
 }
