@@ -44,6 +44,7 @@ class FileWindow extends React.Component {
         }
         this.populateFileTable = this.populateFileTable.bind(this)
         this.goBack = this.goBack.bind(this)
+        this.removeFileFromState = this.removeFileFromState.bind(this)
     }
     // This has to be changed later due to file change
     parseJsonResult(result) {
@@ -53,6 +54,15 @@ class FileWindow extends React.Component {
 
     buildPathFromArray(pathArray, subFolder) {
         return pathArray.join("/")+"/";
+    }
+
+    removeFileFromState(filePath) {
+        var files = this.state.files;
+        var removedFileIndex = files.findIndex(file => file["filePath"] === filePath)
+        files.splice(removedFileIndex, 1)
+        this.setState ({
+            files : files
+        })
     }
 
     calculatePath(subFolder, goBack) {
@@ -103,7 +113,8 @@ class FileWindow extends React.Component {
                         <FileHeader />
                         {this.state.files.map(file => 
                         <File 
-                            populateFileTable={this.populateFileTable}  
+                            populateFileTable={this.populateFileTable}
+                            removeFileFromState={this.removeFileFromState}
                             file={file} 
                             key={this.state.currentPath + file["fileName"]} 
                             size="" 
@@ -163,6 +174,7 @@ class ControlButtonBlock extends React.Component {
             file : props.file
         }
         this.downloadFile = this.downloadFile.bind(this)
+        this.deleteFile = this.deleteFile.bind(this)
     }
     // https://stackoverflow.com/questions/35206589/how-to-download-fetch-response-in-react-as-file
     downloadFile() {
@@ -179,6 +191,20 @@ class ControlButtonBlock extends React.Component {
         });
     }
     
+    deleteFile() {
+        const file = this.state.file;
+        const filePath = file["filePath"]
+        fetch("http://localhost:8080/api/file/delete/?path="+filePath, {
+            method: "DELETE",
+            crossDomain: true
+        })
+        .then(response=> response.text())
+        .catch((error) => {
+            console.error(error);
+        });
+        this.props.removeFileFromState(filePath)
+    }
+
     render() {
         let downloadButton;
         if (this.state.file.isDirectory ===false) {
@@ -187,7 +213,7 @@ class ControlButtonBlock extends React.Component {
         return (
             <div className="ButtonBlock">
                 {downloadButton}
-                <button className="button btn-delete"></button>
+                <button onClick={this.deleteFile} className="button btn-delete"></button>
             </div>
         )
     }
