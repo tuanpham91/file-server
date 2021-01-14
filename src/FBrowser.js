@@ -3,6 +3,21 @@ import React from 'react';
 import './FBrowser.css';
 
 class BrowserHeader extends React.Component {
+
+    uploadFile(event) {
+        event.stopPropagation();
+        event.preventDefault();
+        var file = event.target.files[0];
+        var form = new FormData();
+        form.append("file", file)
+        fetch('http://localhost:8080/api/upload', {
+            method: 'POST',
+            body: form
+        })
+        .then()
+        
+    }
+
     render() {
         return (
             <div className="Header">
@@ -10,6 +25,7 @@ class BrowserHeader extends React.Component {
                     type="file"
                     ref={(ref) => this.upload = ref}
                     style={{ display: 'none' }}
+                    onChange={this.uploadFile.bind(this)}
                 />
 
                 <Button onClick={this.props.goBack} buttonName="Back" />
