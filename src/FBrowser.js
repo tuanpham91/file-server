@@ -160,8 +160,8 @@ class File extends React.Component {
                 <td className="col3">{this.props.lastModified}</td>
                 <td className="col4" >
                     <ControlButtonBlock 
-                    removeFileFromState={this.props.removeFileFromState}
-                    file={this.props.file} />
+                        removeFileFromState={this.props.removeFileFromState}
+                        file={this.props.file} />
                 </td>
             </tr>
         )
