@@ -12,7 +12,7 @@
 }
 
 .FileRow {
-    height : 30px
+    height : 35px
 }
 
 .FileRow:hover {
@@ -62,7 +62,7 @@ html, body, #root{
 .FileWindowHeader {
     color: #6495ED !important;
     font-weight: bold !important;
-    font-size: 18px !important;
+    font-size: 22px !important;
     width: 100%;
 }
 
@@ -111,4 +111,8 @@ html, body, #root{
     display: inline-block;
     margin: 10px 10px 10px 10px !important;
     vertical-align: middle;
+}
+
+.fileName {
+    font-size: 18px;
 }

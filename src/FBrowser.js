@@ -157,7 +157,7 @@ class FileWindow extends React.Component {
                         <tbody>
                             <FileHeader />
                             {this.state.files.map(file =>
-                                <File
+                                <File 
                                     populateFileTable={this.populateFileTable}
                                     removeFileFromState={this.removeFileFromState}
                                     file={file}
@@ -200,7 +200,7 @@ class File extends React.Component {
     render() {
         return (
             <tr onDoubleClick={this.openFolder} className="FileRow">
-                <td className="col1 unselectable">{this.props.file.fileName}</td>
+                <td className="col1 unselectable fileName">{this.props.file.fileName}</td>
                 <td className="col2">{this.props.file.size}</td>
                 <td className="col3">{this.props.lastModified}</td>
                 <td className="col4" >
