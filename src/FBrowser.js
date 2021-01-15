@@ -1,6 +1,26 @@
 import download from 'downloadjs';
 import React from 'react';
 import './FBrowser.css';
+import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
+
+class CreateFolderPopup extends React.Component {
+    render() {
+        return (
+            <div className="NewFolderNameInput">
+            <TextField  size="small" label="Folder Name" variant="outlined" />
+            <IconButton aria-label="delete" color="primary">
+                <CheckIcon />
+            </IconButton>
+            <IconButton aria-label="delete" color="primary">
+                <ClearIcon />
+            </IconButton>
+            </div>
+        )
+    }
+}
 
 class BrowserHeader extends React.Component {
 
@@ -29,8 +49,10 @@ class BrowserHeader extends React.Component {
                 />
 
                 <Button onClick={this.props.goBack} buttonName="Back" />
-                <Button buttonName="Create Folder" />
                 <Button buttonName="UploadFile" onClick={()=>{this.upload.click()}}/>
+                <Button buttonName="Create Folder" />
+                <CreateFolderPopup />
+
             </div>
         )
     }
