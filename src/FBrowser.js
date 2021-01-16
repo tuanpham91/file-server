@@ -8,20 +8,43 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 class CreateFolderPopup extends React.Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            newFolderName : ""
+        }
+        this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
+        this.createNewFolder = this.createNewFolder.bind(this);
+    }
+
     //https://stackoverflow.com/questions/25385559/rest-api-best-practices-args-in-query-string-vs-in-request-body
-    createNewFolder() {
+    createNewFolder(folderName) {
         var currentPath = this.props.currentPath;
         // TODO 
-        fetch('http://localhost:8080/api/folder/create/', {
-            method: 'POST',
-            body: form
+        fetch('http://localhost:8080/api/folder/create/?path='+ currentPath +'&folderName=' + folderName, {
+            method: 'POST'
         })
+        .then()
     }
+    
+    handleTextFieldChange(e) {
+        this.setState({
+            newFolderName: e.target.value
+        });
+    }
+
     render() {
         return (
             <div className="NewFolderNameInput">
-            <TextField  size="small" label="Folder Name" variant="outlined" />
-            <IconButton aria-label="delete" color="primary">
+            <TextField onChange={this.handleTextFieldChange} size="small" label="Folder Name" variant="outlined" />
+            <IconButton 
+                onClick={() => {
+                     //this.createNewFolder(this.state.newFolderName)
+                     console.log("Close box!")
+                     this.props.showNewFolderInput(false)
+                }}
+                aria-label="delete" 
+                color="primary">
                 <CheckIcon />
             </IconButton>
             <IconButton aria-label="delete" color="primary">
