@@ -39,15 +39,19 @@ class CreateFolderPopup extends React.Component {
             <TextField onChange={this.handleTextFieldChange} size="small" label="Folder Name" variant="outlined" />
             <IconButton 
                 onClick={() => {
-                     //this.createNewFolder(this.state.newFolderName)
-                     console.log("Close box!")
+                     this.createNewFolder(this.state.newFolderName)
                      this.props.showNewFolderInput(false)
                 }}
                 aria-label="delete" 
                 color="primary">
                 <CheckIcon />
             </IconButton>
-            <IconButton aria-label="delete" color="primary">
+            <IconButton 
+                onClick={() => {
+                    this.props.showNewFolderInput(false)
+                }}
+                aria-label="delete" 
+                color="primary">
                 <ClearIcon />
             </IconButton>
             </div>
@@ -94,15 +98,14 @@ class BrowserHeader extends React.Component {
                     style={{ display: 'none' }}
                     onChange={this.uploadFile.bind(this)}
                 />
-
                 <Button onClick={this.props.goBack} buttonName="Back" />
                 <Button buttonName="UploadFile" onClick={()=>{this.upload.click()}}/>
-                <Button buttonName="Create Folder" onClick={this.showNewFolderInput}  />
+                <Button buttonName="Create Folder" onClick={()=> this.showNewFolderInput(true)}  />
                 { creatingFolder ? 
                 <CreateFolderPopup 
                     currentPath={this.props.currentPath}
-                    showNewFolderInput={() => this.showNewFolderInput(true)}
-                /> 
+                    showNewFolderInput={this.showNewFolderInput}
+                />
                 : 
                 null }
             </div>
