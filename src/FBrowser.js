@@ -7,6 +7,16 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 
 class CreateFolderPopup extends React.Component {
+
+    //https://stackoverflow.com/questions/25385559/rest-api-best-practices-args-in-query-string-vs-in-request-body
+    createNewFolder() {
+        var currentPath = this.props.currentPath;
+        // TODO 
+        fetch('http://localhost:8080/api/folder/create/', {
+            method: 'POST',
+            body: form
+        })
+    }
     render() {
         return (
             <div className="NewFolderNameInput">
@@ -23,7 +33,20 @@ class CreateFolderPopup extends React.Component {
 }
 
 class BrowserHeader extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            creatingFolder : false
+        }
+        this.showNewFolderInput = this.showNewFolderInput.bind(this)
+    }
 
+    showNewFolderInput(show) {
+        this.setState({
+            creatingFolder : show
+        })
+    }
+    
     uploadFile(event) {
         event.stopPropagation();
         event.preventDefault();
@@ -35,10 +58,11 @@ class BrowserHeader extends React.Component {
             body: form
         })
         .then()
-        
-    }
+    }   
 
     render() {
+        // TODO https://stackoverflow.com/questions/41819342/how-to-hide-and-show-a-div-in-react
+        var creatingFolder = this.state.creatingFolder;
         return (
             <div className="Header">
                 <input id="myInput"
@@ -50,9 +74,14 @@ class BrowserHeader extends React.Component {
 
                 <Button onClick={this.props.goBack} buttonName="Back" />
                 <Button buttonName="UploadFile" onClick={()=>{this.upload.click()}}/>
-                <Button buttonName="Create Folder" />
-                <CreateFolderPopup />
-
+                <Button buttonName="Create Folder" onClick={this.showNewFolderInput}  />
+                { creatingFolder ? 
+                <CreateFolderPopup 
+                    currentPath={this.props.currentPath}
+                    showNewFolderInput={() => this.showNewFolderInput(true)}
+                /> 
+                : 
+                null }
             </div>
         )
     }
