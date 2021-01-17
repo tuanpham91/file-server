@@ -24,7 +24,12 @@ class CreateFolderPopup extends React.Component {
         fetch('http://localhost:8080/api/folder/create/?path='+ currentPath +'&folderName=' + folderName, {
             method: 'POST'
         })
-        .then()
+        .then(
+            this.props.addFileToState(
+                // TODO: filePath does not matter, for now
+                {"isDirectory":true,"fileName":folderName ,"filePath":this.props.currentPath}
+            )
+        )
     }
     
     handleTextFieldChange(e) {
@@ -84,7 +89,13 @@ class BrowserHeader extends React.Component {
             method: 'POST',
             body: form
         })
-        .then()
+        .then(
+            this.props.addFileToState(
+                // TODO: filePath does not matter, for now
+                {"isDirectory":false,"fileName":file.name ,"filePath":this.props.currentPath}
+            )
+        )
+        
     }   
 
     render() {
@@ -103,6 +114,7 @@ class BrowserHeader extends React.Component {
                 <Button buttonName="Create Folder" onClick={()=> this.showNewFolderInput(true)}  />
                 { creatingFolder ? 
                 <CreateFolderPopup 
+                    addFileToState={this.props.addFileToState}
                     currentPath={this.props.currentPath}
                     showNewFolderInput={this.showNewFolderInput}
                 />
@@ -144,7 +156,9 @@ class FileWindow extends React.Component {
         this.populateFileTable = this.populateFileTable.bind(this)
         this.goBack = this.goBack.bind(this)
         this.removeFileFromState = this.removeFileFromState.bind(this)
+        this.addFileToState = this.addFileToState.bind(this)
     }
+
     // This has to be changed later due to file change
     parseJsonResult(result) {
         return result;
@@ -153,6 +167,14 @@ class FileWindow extends React.Component {
 
     buildPathFromArray(pathArray, subFolder) {
         return pathArray.join("/") + "/";
+    }
+
+    addFileToState(file) {
+        var files = this.state.files;
+        files.push(file)
+        this.setState({
+            files: files
+        })
     }
 
     removeFileFromState(filePath) {
@@ -205,6 +227,7 @@ class FileWindow extends React.Component {
             <div className="main-page">
                 <BrowserHeader
                     currentPath={this.state.currentPath}
+                    addFileToState={this.addFileToState}
                     goBack={this.goBack}
                 />
                 <div className="FileWindow">
