@@ -87,20 +87,6 @@ html, body, #root{
     margin-right: 10px;
 }
 
-.btn-delete {
-    background: url(./images/delete-button.PNG) no-repeat center center;
-    background-size: contain; 
-}
-
-.btn-download {
-    background: url(./images/download-button.png) no-repeat center center;
-    background-size: contain; 
-}
-
-.btn:hover {
-
-}
-
 .ButtonBlock {
     height: 100%;
 }

@@ -5,9 +5,11 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
+import DeleteIcon from '@material-ui/icons/Delete';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import FolderRoundedIcon from '@material-ui/icons/FolderRounded';
 
 class CreateFolderPopup extends React.Component {
-
     constructor(props) {
         super(props)
         this.state = {
@@ -71,6 +73,7 @@ class BrowserHeader extends React.Component {
             creatingFolder : false
         }
         this.showNewFolderInput = this.showNewFolderInput.bind(this)
+        this.uploadFile = this.uploadFile.bind(this)
     }
 
     showNewFolderInput(show) {
@@ -85,7 +88,7 @@ class BrowserHeader extends React.Component {
         var file = event.target.files[0];
         var form = new FormData();
         form.append("file", file)
-        fetch('http://localhost:8080/api/upload', {
+        fetch('http://localhost:8080/api/upload/?path=' + this.props.currentPath, {
             method: 'POST',
             body: form
         })
@@ -278,7 +281,13 @@ class File extends React.Component {
     render() {
         return (
             <tr onDoubleClick={this.openFolder} className="FileRow">
-                <td className="col1 unselectable fileName">{this.props.file.fileName}</td>
+                <td className="col1 unselectable fileName">
+                    <FolderRoundedIcon style={{ 
+                        fontSize: 20,
+                        color: "#ffcc00"
+                     }} />
+                    {this.props.file.fileName}
+                </td>
                 <td className="col2">{this.props.file.size}</td>
                 <td className="col3">{this.props.lastModified}</td>
                 <td className="col4" >
@@ -331,13 +340,31 @@ class ControlButtonBlock extends React.Component {
 
     render() {
         let downloadButton;
-        if (this.state.file.isDirectory === false) {
-            downloadButton = <button className="button btn-download" onClick={this.downloadFile}></button>
+        let deleteButton;
+        if (this.state.file.isDirectory === true) {
+            deleteButton = 
+            <IconButton disabled aria-label="delete">
+                <DeleteIcon />
+            </IconButton>
+            downloadButton = 
+            <IconButton disabled aria-label="delete">
+                <GetAppIcon />
+            </IconButton>
+
+        } else {
+            deleteButton =  
+            <IconButton onClick={this.deleteFile} aria-label="delete">
+                <DeleteIcon />
+            </IconButton>
+            downloadButton =
+            <IconButton onClick={this.downloadFile} aria-label="delete">
+                <GetAppIcon />
+            </IconButton>
         }
         return (
             <div className="ButtonBlock">
                 {downloadButton}
-                <button onClick={this.deleteFile} className="button btn-delete"></button>
+                {deleteButton}
             </div>
         )
     }
