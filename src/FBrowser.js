@@ -8,6 +8,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import DeleteIcon from '@material-ui/icons/Delete';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import FolderRoundedIcon from '@material-ui/icons/FolderRounded';
+import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 
 class CreateFolderPopup extends React.Component {
     constructor(props) {
@@ -225,7 +226,7 @@ class FileWindow extends React.Component {
         this.populateFileTable("", false);
     }
 
-    render() {
+    render() {     
         return (
             <div className="main-page">
                 <BrowserHeader
@@ -259,6 +260,8 @@ class FileHeader extends React.Component {
     render() {
         return (
             <tr className="FileWindowHeader">
+                <td className="col0">
+                </td>
                 <td className="col1 file-row">File Name</td>
                 <td className="col2 file-row">Size</td>
                 <td className="col3 file-row">Last Modified</td>
@@ -279,13 +282,24 @@ class File extends React.Component {
         }
     }
     render() {
+        let fileIcon
+        if (this.props.file.isDirectory) {
+            fileIcon = <FolderRoundedIcon style={{ 
+                fontSize: 25,
+                color: "#ffcc00"
+             }} />
+        } else {
+            fileIcon = <DescriptionOutlinedIcon style={{ 
+                fontSize: 25
+            }}/>
+        }
+            
         return (
             <tr onDoubleClick={this.openFolder} className="FileRow">
+                <td className="col0 unselectable fileName">
+                    {fileIcon}
+                </td>
                 <td className="col1 unselectable fileName">
-                    <FolderRoundedIcon style={{ 
-                        fontSize: 20,
-                        color: "#ffcc00"
-                     }} />
                     {this.props.file.fileName}
                 </td>
                 <td className="col2">{this.props.file.size}</td>
