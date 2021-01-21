@@ -9,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import FolderRoundedIcon from '@material-ui/icons/FolderRounded';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
+import { Button } from '@material-ui/core';
 
 class CreateFolderPopup extends React.Component {
     constructor(props) {
@@ -113,9 +114,9 @@ class BrowserHeader extends React.Component {
                     style={{ display: 'none' }}
                     onChange={this.uploadFile.bind(this)}
                 />
-                <Button onClick={this.props.goBack} buttonName="Back" />
-                <Button buttonName="UploadFile" onClick={()=>{this.upload.click()}}/>
-                <Button buttonName="Create Folder" onClick={()=> this.showNewFolderInput(true)}  />
+                <Button onClick={this.props.goBack} variant="contained" color="primary">Back</Button>
+                <Button onClick={()=>{this.upload.click()}} variant="contained"  color="primary">Upload File</Button>
+                <Button onClick={()=> this.showNewFolderInput(true)} variant="contained"  color="primary">Create Folder</Button>
                 { creatingFolder ? 
                 <CreateFolderPopup 
                     addFileToState={this.props.addFileToState}
@@ -129,13 +130,6 @@ class BrowserHeader extends React.Component {
     }
 }
 
-class Button extends React.Component {
-    render() {
-        return (
-            <button onClick={this.props.onClick} className="Button">{this.props.buttonName}</button>
-        )
-    }
-}
 function getFiles(cb, currentPath) {
     fetch("http://localhost:8080/api/folders/?path=" + currentPath, {
         method: "GET",
@@ -226,6 +220,7 @@ class FileWindow extends React.Component {
         this.populateFileTable("", false);
     }
 
+    // sort : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
     render() {     
         return (
             <div className="main-page">
@@ -238,7 +233,10 @@ class FileWindow extends React.Component {
                     <table id="FileWindowTable" cellSpacing="0">
                         <tbody>
                             <FileHeader />
-                            {this.state.files.map(file =>
+                            {this.state.files.sort(
+                                (a, b) => a.isDirectory < b.isDirectory
+                            )
+                            .map(file =>
                                 <File 
                                     populateFileTable={this.populateFileTable}
                                     removeFileFromState={this.removeFileFromState}
