@@ -244,8 +244,10 @@ class FileWindow extends React.Component {
                 />
                 <div className="FileWindow">
                     <table id="FileWindowTable" cellSpacing="0">
-                        <tbody>
+                        <thead>
                             <FileHeader />
+                        </thead>
+                        <tbody>
                             {this.state.files.sort(
                                 (a, b) => a.isDirectory < b.isDirectory
                             )
@@ -270,12 +272,13 @@ class FileWindow extends React.Component {
 class FileHeader extends React.Component {
     render() {
         return (
-            <tr className="FileWindowHeader">
-                <td className="col0">
-                </td>
-                <td className="col1 ">File Name</td>
-                <td className="col2 ">Size</td>
-                <td className="col3 ">Last Modified</td>
+            <tr className="FileWindowHeader FileRow ">
+                <th className="col0">
+                </th>
+                <th className="col1">File Name</th>
+                <th className="col2">Size</th>
+                <th className="col3">Last Modified</th>
+                <th className="col4"></th>
             </tr>
         )
     }

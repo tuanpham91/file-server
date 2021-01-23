@@ -104,3 +104,8 @@ td {
 .fileName {
     font-size: 18px;
 }
+th {
+    background: white;
+    position: sticky;
+    top: 0px; /* Don't forget this, required for the stickiness */
+}
