@@ -10,6 +10,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import FolderRoundedIcon from '@material-ui/icons/FolderRounded';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import { Button } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 
 class CreateFolderPopup extends React.Component {
     constructor(props) {
@@ -44,17 +45,22 @@ class CreateFolderPopup extends React.Component {
 
     render() {
         return (
-            <div className="NewFolderNameInput">
-            <TextField onChange={this.handleTextFieldChange} size="small" label="Folder Name" variant="outlined" />
-            <IconButton 
-                onClick={() => {
-                     this.createNewFolder(this.state.newFolderName)
-                     this.props.showNewFolderInput(false)
-                }}
-                aria-label="delete" 
-                color="primary">
-                <CheckIcon />
-            </IconButton>
+            <span className="NewFolderNameInput">
+            <Box component="span">
+                <TextField onChange={this.handleTextFieldChange} size="small" label="Folder Name" variant="outlined" />
+            </Box>
+            <Box component="span">
+                <IconButton  
+                    onClick={() => {
+                        this.createNewFolder(this.state.newFolderName)
+                        this.props.showNewFolderInput(false)
+                    }}
+                    aria-label="delete" 
+                    color="primary">
+                    <CheckIcon />
+                </IconButton>
+            </Box>
+            <Box component="span">
             <IconButton 
                 onClick={() => {
                     this.props.showNewFolderInput(false)
@@ -63,7 +69,8 @@ class CreateFolderPopup extends React.Component {
                 color="primary">
                 <ClearIcon />
             </IconButton>
-            </div>
+            </Box>
+            </span>
         )
     }
 }
@@ -114,9 +121,15 @@ class BrowserHeader extends React.Component {
                     style={{ display: 'none' }}
                     onChange={this.uploadFile.bind(this)}
                 />
-                <Button onClick={this.props.goBack} variant="contained" color="primary">Back</Button>
-                <Button onClick={()=>{this.upload.click()}} variant="contained"  color="primary">Upload File</Button>
-                <Button onClick={()=> this.showNewFolderInput(true)} variant="contained"  color="primary">Create Folder</Button>
+                <Box component="span" pl={3}>
+                    <Button onClick={this.props.goBack} variant="contained" color="primary">Back</Button>
+                </Box>
+                <Box component="span" pl={3}>
+                    <Button onClick={()=>{this.upload.click()}} variant="contained"  color="primary">Upload File</Button>
+                </Box>
+                <Box component="span" pl={3}>
+                    <Button onClick={()=> this.showNewFolderInput(true)} variant="contained"  color="primary">Create Folder</Button>
+                </Box>
                 { creatingFolder ? 
                 <CreateFolderPopup 
                     addFileToState={this.props.addFileToState}
