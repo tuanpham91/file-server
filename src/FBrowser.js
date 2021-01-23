@@ -273,9 +273,9 @@ class FileHeader extends React.Component {
             <tr className="FileWindowHeader">
                 <td className="col0">
                 </td>
-                <td className="col1 file-row">File Name</td>
-                <td className="col2 file-row">Size</td>
-                <td className="col3 file-row">Last Modified</td>
+                <td className="col1 ">File Name</td>
+                <td className="col2 ">Size</td>
+                <td className="col3 ">Last Modified</td>
             </tr>
         )
     }

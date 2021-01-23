@@ -22,7 +22,7 @@ html, body, #root{
     display: inline-table;
     min-width: 100%;
     padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    padding-bottom: 1em;
 }
 
 .main-page {
@@ -38,6 +38,7 @@ html, body, #root{
     border:3px solid #6495ED;
     width: 100%;
     flex-grow: 1;
+    overflow-y: scroll;
 }
 
 #FileWindowTable {
@@ -58,7 +59,6 @@ html, body, #root{
     color: #6495ED !important;
     font-weight: bold !important;
     font-size: 22px !important;
-    width: 100%;
 }
 
 .col0 {
