@@ -36,9 +36,17 @@ html, body, #root{
 .FileWindow {
     box-sizing: border-box;
     border:3px solid #6495ED;
-    width: 100%;
+    max-width: 100%;
     flex-grow: 1;
     overflow-y: scroll;
+    margin-left: 1em;
+    margin-right: 2em;
+    margin-top: 1em;
+    padding-bottom: 1em;
+    padding-left : 1em;
+    padding-right: 1em;
+    scrollbar-width: thin;          /* "auto" or "thin" */
+    scrollbar-color:grey;  
 }
 
 #FileWindowTable {
@@ -77,6 +85,9 @@ html, body, #root{
     width: 30%;
 }
 
+.left-text {
+    text-align: left;
+}
 .col4 {
     width: 10%;
 }

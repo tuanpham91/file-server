@@ -272,13 +272,14 @@ class FileWindow extends React.Component {
 class FileHeader extends React.Component {
     render() {
         return (
+            //Fix https://stackoverflow.com/questions/21168521/table-fixed-header-and-scrollable-body
             <tr className="FileWindowHeader FileRow ">
-                <th className="col0">
+                <th className="left-text col0">
                 </th>
-                <th className="col1">File Name</th>
-                <th className="col2">Size</th>
-                <th className="col3">Last Modified</th>
-                <th className="col4"></th>
+                <th className="left-text col1">File Name</th>
+                <th className="left-text col2">Size</th>
+                <th className="left-text col3">Last Modified</th>
+                <th className="left-text col4"></th>
             </tr>
         )
     }
@@ -310,15 +311,15 @@ class File extends React.Component {
             
         return (
             <tr onDoubleClick={this.openFolder} className="FileRow">
-                <td className="col0 unselectable fileName">
+                <td className="col0 left-text unselectable fileName">
                     {fileIcon}
                 </td>
-                <td className="col1 unselectable fileName">
+                <td className="col1 left-text unselectable fileName">
                     {this.props.file.fileName}
                 </td>
-                <td className="col2">{this.props.file.size}</td>
-                <td className="col3">{this.props.lastModified}</td>
-                <td className="col4" >
+                <td className="col2 left-text">{this.props.file.fileSize}</td>
+                <td className="col3 left-text">{this.props.file.lastModified}</td>
+                <td className="col4 left-text" >
                     <ControlButtonBlock
                         removeFileFromState={this.props.removeFileFromState}
                         file={this.props.file} />
