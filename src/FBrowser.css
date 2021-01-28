@@ -21,8 +21,8 @@ html, body, #root{
 .Header {
     display: inline-table;
     min-width: 100%;
-    padding-top: 0.5em;
-    padding-bottom: 1em;
+    padding-top: 1em;
+    padding-bottom: 0.5em;
 }
 
 .main-page {
