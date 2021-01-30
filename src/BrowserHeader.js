@@ -1,6 +1,10 @@
 import React from 'react'
-import Button from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
 
 class BrowserHeader extends React.Component {
     constructor(props) {

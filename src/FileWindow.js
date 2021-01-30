@@ -1,9 +1,8 @@
 import React from 'react';
 import './FBrowser.css';
-import File from './File';
-import BrowserHeader from './BrowserHeader';
-import FileHeader from './FileHeader';
-import File from './File';
+import { File } from './File';
+import { BrowserHeader } from './BrowserHeader';
+import { FileHeader } from './FileHeader';
 
 function getFiles(cb, currentPath) {
     fetch("http://localhost:8080/api/folders/?path=" + currentPath, {

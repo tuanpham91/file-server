@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { FileWindow } from './FBrowser';
+import { FileWindow } from './FileWindow';
 import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
   <FileWindow />,
