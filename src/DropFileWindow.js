@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
+import { FileHeader } from './FileHeader';
+import { File } from './File';
+
 class DropFileWindow extends Component {
+    
+    dropRef = React.createRef()
+
     state = {
         dragging: false
     }
@@ -26,11 +32,11 @@ class DropFileWindow extends Component {
     handleDrop = (e) => {
         e.preventDefault()
         e.stopPropagation()
-        this.setState({dragging: false})
+        this.setState({ dragging: false })
         if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-          this.props.handleDrop(e.dataTransfer.files)
-          e.dataTransfer.clearData()
-          this.dragCounter = 0
+            this.props.handleDrop(e.dataTransfer.files)
+            e.dataTransfer.clearData()
+            this.dragCounter = 0
         }
     }
 
@@ -44,7 +50,7 @@ class DropFileWindow extends Component {
         div.addEventListener('dragleave', this.handleDragOut)
         div.addEventListener('dragover', this.handleDrag)
         div.addEventListener('drop', this.handleDrop)
-      }
+    }
     //  is the last function to be called immediately before the component is removed from the DOM
     componentWillUnmount() {
         let div = this.dropRef.current
@@ -54,22 +60,46 @@ class DropFileWindow extends Component {
         div.removeEventListener('drop', this.handleDrop)
     }
 
-    render(){
-
+    render() {
+        return (
+            <div ref={this.dropRef} className="FileWindow">
+                <table id="FileWindowTable" cellSpacing="0">
+                    <thead>
+                        <FileHeader />
+                    </thead>
+                    <tbody>
+                        {this.props.files.sort(
+                            (a, b) => a.isDirectory < b.isDirectory
+                        )
+                            .map(file =>
+                                <File
+                                    populateFileTable={this.populateFileTable}
+                                    removeFileFromState={this.removeFileFromState}
+                                    file={file}
+                                    key={this.state.currentPath + file["fileName"]}
+                                    size=""
+                                    lastModified="" />)
+                        }
+                    </tbody>
+                </table>
+            </div>
+        );
     }
 }
 
 
 class DropFileWindowOverlay extends Component {
     render() {
-        <div className="FileWindow Overlay">
+        return (
+            <div className="FileWindow Overlay">
 
-        </div>
+            </div>
+        )
     }
 
 }
 
-module.exports = {
+export {
     DropFileWindow,
     DropFileWindowOverlay
 }

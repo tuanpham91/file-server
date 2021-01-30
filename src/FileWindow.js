@@ -1,8 +1,7 @@
 import React from 'react';
 import './FBrowser.css';
-import { File } from './File';
 import { BrowserHeader } from './BrowserHeader';
-import { FileHeader } from './FileHeader';
+import { DropFileWindow } from './DropFileWindow';
 
 function getFiles(cb, currentPath) {
     fetch("http://localhost:8080/api/folders/?path=" + currentPath, {
@@ -103,27 +102,9 @@ class FileWindow extends React.Component {
                     addFileToState={this.addFileToState}
                     goBack={this.goBack}
                 />
-                <div className="FileWindow">
-                    <table id="FileWindowTable" cellSpacing="0">
-                        <thead>
-                            <FileHeader />
-                        </thead>
-                        <tbody>
-                            {this.state.files.sort(
-                                (a, b) => a.isDirectory < b.isDirectory
-                            )
-                            .map(file =>
-                                <File 
-                                    populateFileTable={this.populateFileTable}
-                                    removeFileFromState={this.removeFileFromState}
-                                    file={file}
-                                    key={this.state.currentPath + file["fileName"]}
-                                    size=""
-                                    lastModified="" />)
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                <DropFileWindow 
+                    files={this.state.files}>
+                </DropFileWindow>
             </div>
 
         )
